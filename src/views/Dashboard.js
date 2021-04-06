@@ -15,12 +15,13 @@ import {
   OverlayTrigger,
   Tooltip,
 } from "react-bootstrap";
+import TableMuthowif from "components/TableMuthowif/TableMuthowif.js";
 
-function Dashboard() {
+const Dashboard = () => {
   return (
     <>
       <Container fluid>
-        <Row>
+        {/* <Row>
           <Col lg="3" sm="6">
             <Card className="card-stats">
               <Card.Body>
@@ -125,8 +126,11 @@ function Dashboard() {
               </Card.Footer>
             </Card>
           </Col>
-        </Row>
+        </Row> */}
         <Row>
+          <TableMuthowif />
+        </Row>
+        {/* <Row>
           <Col md="8">
             <Card>
               <Card.Header>
@@ -631,7 +635,7 @@ function Dashboard() {
               </Card.Footer>
             </Card>
           </Col>
-        </Row>
+        </Row> */}
       </Container>
     </>
   );

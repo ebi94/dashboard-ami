@@ -1,7 +1,7 @@
 /*!
 
 =========================================================
-* Light Bootstrap Dashboard React - v2.0.0
+* AMI | Dashboard React - v2.0.0
 =========================================================
 
 * Product Page: https://www.creative-tim.com/product/light-bootstrap-dashboard-react
@@ -24,7 +24,7 @@ class Footer extends Component {
       <footer className="footer px-0 px-lg-3">
         <Container fluid>
           <nav>
-            <ul className="footer-menu">
+            {/* <ul className="footer-menu">
               <li>
                 <a href="#pablo" onClick={(e) => e.preventDefault()}>
                   Home
@@ -45,11 +45,10 @@ class Footer extends Component {
                   Blog
                 </a>
               </li>
-            </ul>
+            </ul> */}
             <p className="copyright text-center">
               © {new Date().getFullYear()}{" "}
-              <a href="http://www.creative-tim.com">Creative Tim</a>, made with
-              love for a better web
+              <a href="http://ami.devtri.xyz">AMI | Asosiasi Muthowif Indonesia</a>
             </p>
           </nav>
         </Container>

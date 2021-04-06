@@ -1,7 +1,7 @@
 /*!
 
 =========================================================
-* Light Bootstrap Dashboard React - v2.0.0
+* AMI | Dashboard React - v2.0.0
 =========================================================
 
 * Product Page: https://www.creative-tim.com/product/light-bootstrap-dashboard-react
@@ -43,7 +43,7 @@ const Sidebar = ({ color, image, routes }) => {
           >
             <div className="logo-img">
               <img
-                src={require("assets/img/reactlogo.png").default}
+                src={require("assets/img/AMI-Square.png").default}
                 alt="..."
               />
             </div>

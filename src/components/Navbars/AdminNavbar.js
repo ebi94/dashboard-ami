@@ -1,7 +1,7 @@
 /*!
 
 =========================================================
-* Light Bootstrap Dashboard React - v2.0.0
+* AMI | Dashboard React - v2.0.0
 =========================================================
 
 * Product Page: https://www.creative-tim.com/product/light-bootstrap-dashboard-react
@@ -69,17 +69,6 @@ function Header() {
         </Navbar.Toggle>
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="nav mr-auto" navbar>
-            <Nav.Item>
-              <Nav.Link
-                data-toggle="dropdown"
-                href="#pablo"
-                onClick={(e) => e.preventDefault()}
-                className="m-0"
-              >
-                <i className="nc-icon nc-palette"></i>
-                <span className="d-lg-none ml-1">Dashboard</span>
-              </Nav.Link>
-            </Nav.Item>
             <Dropdown as={Nav.Item}>
               <Dropdown.Toggle
                 as={Nav.Link}
@@ -88,7 +77,7 @@ function Header() {
                 variant="default"
                 className="m-0"
               >
-                <i className="nc-icon nc-planet"></i>
+                <i className="nc-icon nc-notification-70"></i>
                 <span className="notification">5</span>
                 <span className="d-lg-none ml-1">Notification</span>
               </Dropdown.Toggle>
@@ -125,27 +114,8 @@ function Header() {
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
-            <Nav.Item>
-              <Nav.Link
-                className="m-0"
-                href="#pablo"
-                onClick={(e) => e.preventDefault()}
-              >
-                <i className="nc-icon nc-zoom-split"></i>
-                <span className="d-lg-block"> Search</span>
-              </Nav.Link>
-            </Nav.Item>
           </Nav>
           <Nav className="ml-auto" navbar>
-            <Nav.Item>
-              <Nav.Link
-                className="m-0"
-                href="#pablo"
-                onClick={(e) => e.preventDefault()}
-              >
-                <span className="no-icon">Account</span>
-              </Nav.Link>
-            </Nav.Item>
             <Dropdown as={Nav.Item}>
               <Dropdown.Toggle
                 aria-expanded={false}
@@ -156,39 +126,26 @@ function Header() {
                 variant="default"
                 className="m-0"
               >
-                <span className="no-icon">Dropdown</span>
+                <span className="no-icon">Account</span>
               </Dropdown.Toggle>
               <Dropdown.Menu aria-labelledby="navbarDropdownMenuLink">
                 <Dropdown.Item
                   href="#pablo"
                   onClick={(e) => e.preventDefault()}
                 >
-                  Action
+                  My Profile
                 </Dropdown.Item>
                 <Dropdown.Item
                   href="#pablo"
                   onClick={(e) => e.preventDefault()}
                 >
-                  Another action
+                  Setting
                 </Dropdown.Item>
                 <Dropdown.Item
                   href="#pablo"
                   onClick={(e) => e.preventDefault()}
                 >
-                  Something
-                </Dropdown.Item>
-                <Dropdown.Item
-                  href="#pablo"
-                  onClick={(e) => e.preventDefault()}
-                >
-                  Something else here
-                </Dropdown.Item>
-                <div className="divider"></div>
-                <Dropdown.Item
-                  href="#pablo"
-                  onClick={(e) => e.preventDefault()}
-                >
-                  Separated link
+                  Edit Profile
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
