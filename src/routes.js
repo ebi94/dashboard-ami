@@ -17,6 +17,8 @@
 */
 import Dashboard from "views/Dashboard.js";
 import UserProfile from "views/UserProfile.js";
+import Reservasi from "views/Reservasi.js";
+import Muthowif from "views/Muthowif.js";
 import TableList from "views/TableList.js";
 import Typography from "views/Typography.js";
 import Icons from "views/Icons.js";
@@ -24,11 +26,25 @@ import Maps from "views/Maps.js";
 import Notifications from "views/Notifications.js";
 
 const dashboardRoutes = [
+  // {
+  //   path: "/dashboard",
+  //   name: "Dashboard",
+  //   icon: "nc-icon nc-chart-pie-35",
+  //   component: Dashboard,
+  //   layout: "/admin",
+  // },
   {
-    path: "/dashboard",
-    name: "Dashboard",
-    icon: "nc-icon nc-chart-pie-35",
-    component: Dashboard,
+    path: "/muthowif",
+    name: "Muthowif",
+    icon: "nc-icon nc-single-02",
+    component: Muthowif,
+    layout: "/admin",
+  },
+  {
+    path: "/reservasi",
+    name: "Reservasi",
+    icon: "nc-icon nc-notes",
+    component: Reservasi,
     layout: "/admin",
   },
   // {

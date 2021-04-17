@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 // react-bootstrap components
 import {
@@ -18,15 +18,17 @@ import { data } from "jquery";
 
 const TableMuthowif = () => {
 	const [dataMuthowif, setDataMuthowif] = useState([]);
-	axios.get('https://backend-ami.herokuapp.com/muthowif')
-		.then((response) => {
-			const data = response && response.data && response.data.data;
-			setDataMuthowif(data);
-			console.log('response', data);
-	})
-		.catch(function (error) {
-			console.log('error', error);
-	});
+	useEffect(() => {
+		axios.get('https://backend-ami.herokuapp.com/muthowif')
+			.then((response) => {
+				const data = response && response.data && response.data.data;
+				setDataMuthowif(data);
+				console.log('response', data);
+		})
+			.catch(function (error) {
+				console.log('error', error);
+		});
+	},[])
   return (
     <>
 			<Col md="12">
