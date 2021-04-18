@@ -56,7 +56,7 @@ const TableMuthowif = () => {
 									dataMuthowif.map((item, index) => (
 										<tr key={index}>
 											<td>{item.id}</td>
-											<td>{item.first_name}</td>
+											<td>{item.firstName}</td>
 											<td>{item.email}</td>
 											<td>{item.phone}</td>
 											<td>
