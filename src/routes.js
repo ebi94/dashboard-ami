@@ -19,6 +19,7 @@ import Dashboard from "views/Dashboard.js";
 import UserProfile from "views/UserProfile.js";
 import Reservasi from "views/Reservasi.js";
 import Muthowif from "views/Muthowif.js";
+import Travel from "views/Travel.js";
 import TableList from "views/TableList.js";
 import Typography from "views/Typography.js";
 import Icons from "views/Icons.js";
@@ -38,6 +39,13 @@ const dashboardRoutes = [
     name: "Muthowif",
     icon: "nc-icon nc-single-02",
     component: Muthowif,
+    layout: "/admin",
+  },
+  {
+    path: "/travel",
+    name: "Travel",
+    icon: "nc-icon nc-istanbul",
+    component: Travel,
     layout: "/admin",
   },
   {
