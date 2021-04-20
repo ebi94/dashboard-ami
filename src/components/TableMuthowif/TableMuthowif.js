@@ -23,7 +23,6 @@ const TableMuthowif = () => {
 			.then((response) => {
 				const data = response && response.data && response.data.data;
 				setDataMuthowif(data);
-				console.log('response', data);
 		})
 			.catch(function (error) {
 				console.log('error', error);

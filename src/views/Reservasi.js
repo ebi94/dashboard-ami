@@ -1,19 +1,37 @@
-import React from "react";
-
-// react-bootstrap components
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import {
-  Badge,
   Button,
   Card,
   Form,
-  Navbar,
-  Nav,
   Container,
   Row,
+  Spinner,
   Col,
 } from "react-bootstrap";
+import CardMuthowif from "components/CardMuthowif/CardMuthowif";
 
 const Reservasi = () => {
+  const [ listMuthowif, setListMuthowif ] = useState([]);
+  const [ loading, setLoading ] = useState(false);
+  const getMuthowif = () => {
+    setLoading(true)
+    axios.get('https://backend-ami.herokuapp.com/muthowif')
+			.then((response) => {
+				const data = response && response.data && response.data.data;
+				setListMuthowif(data);
+        setLoading(false);
+		})
+			.catch(function (error) {
+				console.log('error', error);
+        setLoading(false);
+		});
+  }
+
+  useEffect(() => {
+    console.log("list Muthowif", listMuthowif);
+  }, [listMuthowif])
+
   return (
     <>
       <Container fluid>
@@ -58,15 +76,30 @@ const Reservasi = () => {
                   </Row>
                   <Button
                     className="btn-fill pull-right"
-                    type="submit"
+                    style={{minWidth: 150}}
+                    // type="submit"
                     variant="info"
+                    onClick={() => getMuthowif()}
+                    disabled={loading}
                   >
-                    Cari Muthowif
+                    {loading ? <Spinner animation="border" variant="secondary" style={{fonstSize: 10, height: 20, width: 20}} size="sm" /> : "Cari Muthowif"}
                   </Button>
                   <div className="clearfix"></div>
                 </Form>
               </Card.Body>
             </Card>
+          </Col>
+        </Row>
+        <Row>
+          <Col md="12">
+            {listMuthowif.map((data, index) => (
+                <>
+                  <CardMuthowif 
+                    name={data.firstName}
+                  />
+                </>
+              ))
+            }
           </Col>
         </Row>
       </Container>

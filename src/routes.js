@@ -25,6 +25,7 @@ import Typography from "views/Typography.js";
 import Icons from "views/Icons.js";
 import Maps from "views/Maps.js";
 import Notifications from "views/Notifications.js";
+import ReservasiForm from "views/ReservasiForm";
 
 const dashboardRoutes = [
   // {
@@ -97,6 +98,13 @@ const dashboardRoutes = [
   //   component: Notifications,
   //   layout: "/admin",
   // },
+  {
+    path: "/reservasi-form",
+    name: "Reservasi Form",
+    icon: "nc-icon nc-notes",
+    component: ReservasiForm,
+    layout: "/admin",
+  }
 ];
 
 export default dashboardRoutes;
