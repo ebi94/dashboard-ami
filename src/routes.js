@@ -100,7 +100,7 @@ const dashboardRoutes = [
   // },
   {
     path: "/reservasi-form",
-    name: "Reservasi Form",
+    name: "ReservasiForm",
     icon: "nc-icon nc-notes",
     component: ReservasiForm,
     layout: "/admin",
