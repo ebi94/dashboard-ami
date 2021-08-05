@@ -48,7 +48,7 @@ class Footer extends Component {
             </ul> */}
             <p className="copyright text-center">
               © {new Date().getFullYear()}{" "}
-              <a href="http://ami.devtri.xyz">AMI | Asosiasi Muthowif Indonesia</a>
+              <a href="https://asosiasiami.com/">AMI | Asosiasi Muthowif Indonesia</a>
             </p>
           </nav>
         </Container>

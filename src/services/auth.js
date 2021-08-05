@@ -1,19 +1,22 @@
 import axios from "axios";
+import swal from "sweetalert";
 
 const baseUrl = process.env.REACT_APP_BACKEND_API;
 
-const getListMuthowif = () => {
-    return axios.get(baseUrl + '/muthowif')
+const login = (params) => {
+    return axios.post(baseUrl + '/auth-user', {
+        email: params && params.email,
+        password: params && params.password
+    })
         .then((response) => {
-            const data = response && response.data && response.data.data;
-            return data;
+            return { ...response }
         })
         .catch(function (error) {
             console.log('error', error);
         });
 };
 
-const editMuthowif = (data, idMuthowif) => {
+const logout = (data, idMuthowif) => {
     const bodyReq = {
         firstName: data.firstName,
         email: data.email,
@@ -31,6 +34,6 @@ const editMuthowif = (data, idMuthowif) => {
 };
 
 export {
-    getListMuthowif,
-    editMuthowif
+    login,
+    logout
 }

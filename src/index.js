@@ -28,11 +28,13 @@ import "./assets/css/custom.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
 import AdminLayout from "layouts/Admin.js";
+import LoginLayout from "layouts/Login.js";
 
 ReactDOM.render(
   <BrowserRouter>
     <Switch>
       <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
+      <Route path="/login" render={(props) => <LoginLayout {...props} />} />
       <Redirect from="/" to="/admin/muthowif" />
     </Switch>
   </BrowserRouter>,

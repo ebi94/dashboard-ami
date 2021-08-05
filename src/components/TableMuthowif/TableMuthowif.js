@@ -63,6 +63,8 @@ const TableMuthowif = () => {
 			setLoading(false);
 			setModalEdit(false);
 			getDataMuthowif();
+		} else {
+			notify(res.messages, "danger");
 		}
 	};
 
@@ -115,7 +117,13 @@ const TableMuthowif = () => {
 											<td>{item.firstName}</td>
 											<td>{item.email}</td>
 											<td>{item.phone}</td>
-											<td><Badge variant="success">Aktif</Badge></td>
+											<td>
+												{item.status === 1 ?
+													<Badge variant="success">Aktif</Badge>
+													:
+													<Badge variant="warning">Belum Konfirmasi</Badge>
+												}
+											</td>
 											<td>
 												<OverlayTrigger
 													overlay={
@@ -210,7 +218,11 @@ const TableMuthowif = () => {
 					</Row>
 					<Row className="text-left">
 						<Col md="5"><p className="text-muted"><span>Status</span></p></Col>
-						<Col md="7"><Badge variant="success">Aktif</Badge></Col>
+						<Col md="7">{dataDetail.status === 1 ?
+							<Badge variant="success">Aktif</Badge>
+							:
+							<Badge variant="warning">Belum Konfirmasi</Badge>
+						}</Col>
 					</Row>
 				</Modal.Body>
 				<Modal.Footer>
@@ -222,7 +234,7 @@ const TableMuthowif = () => {
 							onClick={() => setModalDetail(false)}
 						>
 							Keluar
-                        </Button>
+						</Button>
 					</div>
 				</Modal.Footer>
 			</Modal>
@@ -302,7 +314,7 @@ const TableMuthowif = () => {
 								onClick={() => setModalEdit(false)}
 							>
 								Batal
-                                </Button>
+							</Button>
 							<Button
 								className="btn-fill pull-right"
 								style={{ minWidth: 150 }}

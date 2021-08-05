@@ -32,6 +32,7 @@ function Admin() {
   const [color, setColor] = React.useState("black");
   const [hasImage, setHasImage] = React.useState(true);
   const location = useLocation();
+  const token = localStorage.getItem('token');
   const mainPanel = React.useRef(null);
   const getRoutes = (routes) => {
     return routes.map((prop, key) => {
@@ -48,6 +49,9 @@ function Admin() {
       }
     });
   };
+  if (!token) {
+    window.location.replace("/login");
+  }
   React.useEffect(() => {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
