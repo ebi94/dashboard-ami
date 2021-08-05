@@ -18,8 +18,8 @@
 import React, { Component } from "react";
 import { useLocation } from "react-router-dom";
 import { Navbar, Container, Nav, Dropdown, Button } from "react-bootstrap";
-
 import routes from "routes.js";
+import { logout } from "services/auth";
 
 function Header() {
   const location = useLocation();
@@ -70,7 +70,7 @@ function Header() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="nav mr-auto" navbar>
             <Dropdown as={Nav.Item}>
-              <Dropdown.Toggle
+              {/* <Dropdown.Toggle
                 as={Nav.Link}
                 data-toggle="dropdown"
                 id="dropdown-67443507"
@@ -112,11 +112,11 @@ function Header() {
                 >
                   Another notification
                 </Dropdown.Item>
-              </Dropdown.Menu>
+              </Dropdown.Menu> */}
             </Dropdown>
           </Nav>
           <Nav className="ml-auto" navbar>
-            <Dropdown as={Nav.Item}>
+            {/* <Dropdown as={Nav.Item}>
               <Dropdown.Toggle
                 aria-expanded={false}
                 aria-haspopup={true}
@@ -148,12 +148,12 @@ function Header() {
                   Edit Profile
                 </Dropdown.Item>
               </Dropdown.Menu>
-            </Dropdown>
+            </Dropdown> */}
             <Nav.Item>
               <Nav.Link
                 className="m-0"
                 href="#pablo"
-                onClick={(e) => e.preventDefault()}
+                onClick={() => logout()}
               >
                 <span className="no-icon">Log out</span>
               </Nav.Link>

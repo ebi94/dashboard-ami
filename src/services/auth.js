@@ -16,21 +16,9 @@ const login = (params) => {
         });
 };
 
-const logout = (data, idMuthowif) => {
-    const bodyReq = {
-        firstName: data.firstName,
-        email: data.email,
-        phone: data.phone,
-        address: data.address,
-    }
-    return axios.patch(baseUrl + '/muthowif/' + idMuthowif, bodyReq)
-        .then((response) => {
-            const data = response && response.data;
-            return data;
-        })
-        .catch((response) => {
-            return response;
-        });
+const logout = () => {
+    localStorage.clear()
+    window.location.replace("/login");
 };
 
 export {

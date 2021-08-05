@@ -15,7 +15,7 @@ import {
 	Tooltip,
 	Modal
 } from "react-bootstrap";
-import { getListMuthowif, editMuthowif } from "../../services/muthowif";
+import { getListMuthowif, editMuthowif, deleteMuthowif } from "../../services/muthowif";
 
 const TableMuthowif = () => {
 	const notificationAlertRef = useRef(null)
@@ -48,6 +48,37 @@ const TableMuthowif = () => {
 	const onClickEdit = (item) => {
 		setDataDetail(item);
 		setModalEdit(true);
+	};
+
+	const onClickDelete = (id) => {
+		swal({
+			title: "Apakah Anda Yakin Menghapus Data Ini ? ",
+			icon: "warning",
+			buttons: {
+				cancel: {
+					text: "Cancel",
+					value: false,
+					visible: true,
+					className: "",
+					closeModal: true,
+				},
+				confirm: {
+					text: "OK",
+					value: true,
+					visible: true,
+					className: ""
+				}
+			}
+		})
+			.then(async (e) => {
+				if (e) {
+					const res = await deleteMuthowif(id)
+					if (res && res.data === 1) {
+						notify(res.messages, "success");
+						getDataMuthowif();
+					}
+				}
+			});
 	};
 
 	const getDataMuthowif = async () => {
@@ -166,6 +197,7 @@ const TableMuthowif = () => {
 														className="btn-simple btn-link p-1"
 														type="button"
 														variant="danger"
+														onClick={() => onClickDelete(item.id)}
 													>
 														<i className="fas fa-times"></i>
 													</Button>

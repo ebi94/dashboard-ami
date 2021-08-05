@@ -30,7 +30,19 @@ const editMuthowif = (data, idMuthowif) => {
         });
 };
 
+const deleteMuthowif = (id) => {
+    return axios.delete(baseUrl + '/muthowif/' + id)
+        .then((response) => {
+            const data = response && response.data;
+            return data;
+        })
+        .catch((response) => {
+            return response;
+        });
+};
+
 export {
     getListMuthowif,
-    editMuthowif
+    editMuthowif,
+    deleteMuthowif
 }
