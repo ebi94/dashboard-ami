@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useFormik } from "formik";
 import NotificationAlert from "react-notification-alert";
-
+import swal from "sweetalert";
 // react-bootstrap components
 import {
 	Badge,
@@ -16,7 +16,7 @@ import {
 	Tooltip,
 	Modal
 } from "react-bootstrap";
-import { getListTravel, editTravel } from "../../services/travel";
+import { getListTravel, editTravel, deleteTravel } from "../../services/travel";
 
 const TableTravel = () => {
 	const notificationAlertRef = useRef(null)
@@ -49,6 +49,37 @@ const TableTravel = () => {
 	const onClickEdit = (item) => {
 		setDataDetail(item);
 		setModalEdit(true);
+	};
+
+	const onClickDelete = (id) => {
+		swal({
+			title: "Apakah Anda Yakin Menghapus Data Ini ? ",
+			icon: "warning",
+			buttons: {
+				cancel: {
+					text: "Cancel",
+					value: false,
+					visible: true,
+					className: "",
+					closeModal: true,
+				},
+				confirm: {
+					text: "OK",
+					value: true,
+					visible: true,
+					className: ""
+				}
+			}
+		})
+			.then(async (e) => {
+				if (e) {
+					const res = await deleteTravel(id)
+					if (res && res.data === 1) {
+						notify(res.messages, "success");
+						getDataTravel();
+					}
+				}
+			});
 	};
 
 	const getDataTravel = async () => {
@@ -164,6 +195,7 @@ const TableTravel = () => {
 														className="btn-simple btn-link p-1"
 														type="button"
 														variant="danger"
+														onClick={() => onClickDelete(item.id)}
 													>
 														<i className="fas fa-times"></i>
 													</Button>

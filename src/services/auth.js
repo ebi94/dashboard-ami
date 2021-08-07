@@ -9,6 +9,7 @@ const login = (params) => {
         password: params && params.password
     })
         .then((response) => {
+            console.log({ ...response })
             return { ...response }
         })
         .catch(function (error) {

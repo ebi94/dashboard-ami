@@ -17,6 +17,7 @@
 */
 import Dashboard from "views/Dashboard.js";
 import UserProfile from "views/UserProfile.js";
+import TravelProfile from "views/TravelProfile.js";
 import Reservasi from "views/Reservasi.js";
 import ReservasiList from "views/ReservasiList";
 import Muthowif from "views/Muthowif.js";
@@ -85,13 +86,13 @@ if (dataJson && dataJson.role === 1) {
     //   component: Typography,
     //   layout: "/admin",
     // },
-    // {
-    //   path: "/icons",
-    //   name: "Icons",
-    //   icon: "nc-icon nc-atom",
-    //   component: Icons,
-    //   layout: "/admin",
-    // },
+    {
+      path: "/icons",
+      name: "Icons",
+      icon: "nc-icon nc-atom",
+      component: Icons,
+      layout: "/admin",
+    },
     // {
     //   path: "/maps",
     //   name: "Maps",
@@ -152,10 +153,10 @@ if (dataJson && dataJson.role === 1) {
       layout: "/admin",
     },
     {
-      path: "/user",
-      name: "User Profile",
+      path: "/travel",
+      name: "Travel Profile",
       icon: "nc-icon nc-circle-09",
-      component: UserProfile,
+      component: TravelProfile,
       layout: "/admin",
     },
     // {

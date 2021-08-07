@@ -30,7 +30,19 @@ const editTravel = (data, idTravel) => {
         });
 };
 
+const deleteTravel = (id) => {
+    return axios.delete(baseUrl + '/travel/' + id)
+        .then((response) => {
+            const data = response && response.data;
+            return data;
+        })
+        .catch((response) => {
+            return response;
+        });
+};
+
 export {
     getListTravel,
-    editTravel
+    editTravel,
+    deleteTravel
 }
