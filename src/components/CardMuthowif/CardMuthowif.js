@@ -76,7 +76,7 @@ CardMuthowif.propTypes = {
     name: PropTypes.string.isRequired,
     onClickDetail: PropTypes.func.isRequired,
     onClickBook: PropTypes.func.isRequired
-}
+};
 
 
 

@@ -42,7 +42,12 @@ const LoginForm = () => {
             localStorage.setItem('id', dataUser && dataUser.id)
             swal("Login Berhasil", messages, "success").then(() => {
                 localStorage.setItem('dataUser', JSON.stringify(dataUser));
-                window.location.replace('/dashboard');
+                const roleId = dataUser && dataUser.role;
+                if (+roleId === 1) {
+                    window.location.replace('/admin/muthowif');
+                } else {
+                    window.location.replace('/admin/reservasi');
+                }
             });
         } else {
             notify('Error !', 'warning');

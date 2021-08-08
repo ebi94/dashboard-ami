@@ -10,27 +10,66 @@ import {
     Col,
     Modal
 } from "react-bootstrap";
+import { useFormik } from "formik";
+import moment from "moment";
+import * as Yup from 'yup';
+import swal from "sweetalert";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import FlatPickr from "react-flatpickr";
 import CardMuthowif from "components/CardMuthowif/CardMuthowif";
+import { createReservation } from "services/reservation";
+import { getListMuthowif } from "services/muthowif";
 
 const Reservasi = () => {
     const [listMuthowif, setListMuthowif] = useState([]);
     const [loading, setLoading] = useState(false);
+
+    const [dateRequired, setDateRequired] = useState(false);
+    const [searchRequired, setSearchRequired] = useState(false);
+
+    const [loadingReservartion, setLoadingReservation] = useState(false);
+
     const [dataDetail, setDataDetail] = useState({});
     const [dataBook, setDataBook] = useState({});
     const [showModalDetail, setShowModalDetail] = useState(false);
     const [showModalBook, setShowModalBook] = useState(false);
-    const getMuthowif = () => {
+
+    const [dateRange, setDateRange] = useState([]);
+    const [route, setRoute] = useState(0);
+    const [emailMuthowif, setEmailMuthowif] = useState();
+    const [emailTravel, setEmailTravel] = useState();
+    const [muthowifId, setMuthowifId] = useState(0);
+
+    const [startDate, setStartDate] = useState();
+    const [endDate, setEndDate] = useState();
+
+    const getMuthowif = async () => {
         setLoading(true)
-        axios.get('https://backend-ami.herokuapp.com/muthowif')
-            .then((response) => {
-                const data = response && response.data && response.data.data;
-                setListMuthowif(data);
-                setLoading(false);
-            })
-            .catch(function (error) {
-                console.log('error', error);
-                setLoading(false);
+        const res = await getListMuthowif();
+        if (res) {
+            setListMuthowif(res);
+            setLoading(false);
+        } else {
+            swal("Error !", '', "error").then(() => {
+                console.log(res);
             });
+            setLoading(false)
+        }
+    };
+
+    const handleReservation = async (values) => {
+        const res = await createReservation(values);
+        if (res && res.status === 201) {
+            const messages = res && res.data && res.data.messages;
+            console.log('res', res)
+            swal("Sukses", messages, "success").then(() => {
+                setShowModalBook(false);
+                setLoadingReservation(false);
+                window.location.replace("/admin/reservasi-list");
+            });
+        } else {
+
+        }
     };
 
     const onClickDetail = (data) => {
@@ -39,13 +78,91 @@ const Reservasi = () => {
     };
 
     const onClickBook = (data) => {
+        setMuthowifId(data.id);
+        setEmailMuthowif(data.email);
         setDataBook(data);
         setShowModalBook(true);
     };
 
+    const scheme = Yup.object().shape({
+        airline: Yup.string()
+            .required('Harap di isi !'),
+        flightCode: Yup.string()
+            .required('Harap di isi !'),
+        departured: Yup.string()
+            .required('Harap di isi !'),
+        arrived: Yup.string()
+            .required('Harap di isi !'),
+        picName: Yup.string()
+            .required('Harap di isi !'),
+        picContact: Yup.string()
+            .required('Harap di isi !'),
+        paymentMethod: Yup.string()
+            .required('Harap di isi !'),
+    });
+
+    const handleSelect = (e) => {
+        if (e) {
+            setRoute(e.target.value)
+        };
+    };
+
+    const optionsFlatpickr = {
+        mode: 'range',
+        minDate: 'today',
+        dateFormat: 'd-m-Y'
+    };
+
+    const formik = useFormik({
+        enableReinitialize: true,
+        validationSchema: scheme,
+        initialValues: {
+            startDate,
+            endDate,
+            airline: '',
+            flightCode: '',
+            departured: '',
+            arrived: '',
+            picName: '',
+            picContact: '',
+            paymentMethod: '',
+            emailTravel,
+            emailMuthowif,
+            route,
+            muthowifId,
+        },
+        onSubmit: (values) => {
+            handleReservation(values);
+            setLoadingReservation(true);
+        },
+    });
+
     useEffect(() => {
-        console.log("list Muthowif", listMuthowif);
-    }, [listMuthowif])
+        if (dateRange.length > 0) {
+            setDateRequired(false);
+            const startDate = moment(dateRange[0]).format('DD-MM-YYYY');
+            const endDate = moment(dateRange[1]).format('YYYY-MM-DD');
+            setStartDate(startDate);
+            setEndDate(endDate);
+        } else {
+            setDateRequired(true)
+        };
+    }, [dateRange]);
+
+    useEffect(() => {
+        if (route === 0) {
+            setSearchRequired(true)
+        } else {
+            setSearchRequired(false)
+        }
+        console.log('route', route)
+    }, [route]);
+
+    useEffect(() => {
+        const dataTravel = JSON.parse(localStorage.getItem('dataUser'));
+        const email = dataTravel && dataTravel.email;
+        setEmailTravel(email);
+    }, [])
 
     return (
         <>
@@ -59,33 +176,37 @@ const Reservasi = () => {
                             <Card.Body>
                                 <Form>
                                     <Row>
-                                        <Col className="pr-1" md="4">
+                                        <Col className="pr-1" md="6">
                                             <Form.Group>
-                                                <label>Start Date</label>
-                                                <Form.Control
-                                                    placeholder="Username"
-                                                    type="date"
-                                                ></Form.Control>
+                                                <Form.Label>Date Range</Form.Label>
+                                                <FlatPickr
+                                                    options={optionsFlatpickr}
+                                                    value={dateRange}
+                                                    placeholder="Pilih Rentang Tanggal"
+                                                    className={"form-control-flatpickr"}
+                                                    onChange={(e) => setDateRange(e)}
+                                                />
+                                                {dateRequired ? <Form.Text className="text-danger">Harap di pilih</Form.Text> : null}
                                             </Form.Group>
                                         </Col>
-                                        <Col className="px-1" md="4">
-                                            <Form.Group>
-                                                <label>End Date</label>
-                                                <Form.Control
-                                                    placeholder="Username"
-                                                    type="date"
-                                                ></Form.Control>
-                                            </Form.Group>
-                                        </Col>
-                                        <Col className="pl-1" md="4">
+                                        <Col className="pl-1" md="6">
                                             <Form.Group>
                                                 <label htmlFor="exampleInputEmail1">
                                                     Route
                                                 </label>
-                                                <Form.Control as="select" name="select" id="exampleSelect">
-                                                    <option>Jeddah - Jeddah</option>
-                                                    <option>Jeddah - Mecca</option>
+                                                <Form.Control
+                                                    as="select"
+                                                    name="routeSelect"
+                                                    id="routeSelect"
+                                                    isInvalid={searchRequired}
+                                                    onChange={(e) => handleSelect(e)}
+                                                >
+                                                    <option value="0" onClick={() => setRoute(0)}>Pilih Route</option>
+                                                    <option value="1" onClick={() => setRoute(1)}>Jeddah - Jeddah</option>
+                                                    <option value="2" onClick={() => setRoute(2)}>Jeddah - Mecca</option>
                                                 </Form.Control>
+                                                {searchRequired ? <Form.Text className="text-danger">Harap di pilih</Form.Text> : null}
+
                                             </Form.Group>
                                         </Col>
                                     </Row>
@@ -94,7 +215,7 @@ const Reservasi = () => {
                                         style={{ minWidth: 150 }}
                                         variant="info"
                                         onClick={() => getMuthowif()}
-                                        disabled={loading}
+                                        disabled={loading || searchRequired}
                                     >
                                         {loading ? <Spinner animation="border" variant="secondary" style={{ fonstSize: 10, height: 20, width: 20 }} size="sm" /> : "Cari Muthowif"}
                                     </Button>
@@ -106,16 +227,21 @@ const Reservasi = () => {
                 </Row>
                 <Row>
                     <Col md="12">
-                        {listMuthowif.map((data, index) => (
+                        {loading ?
                             <>
-                                <CardMuthowif
-                                    name={data.firstName}
-                                    data={data}
-                                    onClickDetail={(data) => onClickDetail(data)}
-                                    onClickBook={(data) => onClickBook(data)}
-                                />
+                                <Skeleton count={2} height={100} />
                             </>
-                        ))
+                            :
+                            listMuthowif.map((data, index) => (
+                                <>
+                                    <CardMuthowif
+                                        name={data.firstName}
+                                        data={data}
+                                        onClickDetail={(data) => onClickDetail(data)}
+                                        onClickBook={(data) => onClickBook(data)}
+                                    />
+                                </>
+                            ))
                         }
                     </Col>
                 </Row>
@@ -180,15 +306,17 @@ const Reservasi = () => {
                     </Modal.Header>
                     <Modal.Body className="">
                         <h3 className="text-center">Form Reservasi</h3>
-                        <Form>
+                        <Form onSubmit={formik.handleSubmit}>
                             <Row>
                                 <Col className="pr-1">
                                     <Form.Group>
                                         <label>Start Date</label>
                                         <Form.Control
+                                            name="startDate"
+                                            value={formik.values.startDate}
                                             disabled
-                                            defaultValue=""
-                                            type="date"
+                                            value={startDate}
+                                            type="text"
                                         ></Form.Control>
                                     </Form.Group>
                                 </Col>
@@ -196,9 +324,11 @@ const Reservasi = () => {
                                     <Form.Group>
                                         <label>End Date</label>
                                         <Form.Control
+                                            name="endDate"
+                                            value={formik.values.endDate}
                                             disabled
-                                            defaultValue=""
-                                            type="date"
+                                            value={endDate}
+                                            type="text"
                                         ></Form.Control>
                                     </Form.Group>
                                 </Col>
@@ -218,22 +348,38 @@ const Reservasi = () => {
                             <Row>
                                 <Col className="pr-1" md="6">
                                     <Form.Group>
-                                        <label>Detail Fligth</label>
+                                        <label>Maskapai</label>
                                         <Form.Control
-                                            defaultValue=""
-                                            placeholder=""
+                                            name="airline"
+                                            value={formik.values.airline}
+                                            onChange={formik.handleChange}
+                                            onKeyUp={formik.handleBlur}
                                             type="text"
-                                        ></Form.Control>
+                                            disabled={loadingReservartion}
+                                            isInvalid={formik.touched.airline && formik.errors.airline}
+                                        />
+                                        {formik.touched.airline && formik.errors.airline ? (
+                                            <Form.Text className="text-danger">{formik.errors.airline}</Form.Text>)
+                                            : null
+                                        }
                                     </Form.Group>
                                 </Col>
                                 <Col className="pl-1" md="6">
                                     <Form.Group>
                                         <label>Kode Penerbangan</label>
                                         <Form.Control
-                                            defaultValue=""
-                                            placeholder=""
+                                            name="flightCode"
+                                            value={formik.values.flightCode}
+                                            onChange={formik.handleChange}
+                                            onKeyUp={formik.handleBlur}
                                             type="text"
-                                        ></Form.Control>
+                                            disabled={loadingReservartion}
+                                            isInvalid={formik.touched.flightCode && formik.errors.flightCode}
+                                        />
+                                        {formik.touched.flightCode && formik.errors.flightCode ? (
+                                            <Form.Text className="text-danger">{formik.errors.flightCode}</Form.Text>)
+                                            : null
+                                        }
                                     </Form.Group>
                                 </Col>
                             </Row>
@@ -242,31 +388,74 @@ const Reservasi = () => {
                                     <Form.Group>
                                         <label>Jam Keberangkatan</label>
                                         <Form.Control
-                                            defaultValue=""
-                                            placeholder=""
+                                            name="departured"
+                                            value={formik.values.departured}
+                                            onChange={formik.handleChange}
+                                            onKeyUp={formik.handleBlur}
                                             type="text"
-                                        ></Form.Control>
+                                            disabled={loadingReservartion}
+                                            isInvalid={formik.touched.departured && formik.errors.departured}
+                                        />
+                                        {formik.touched.departured && formik.errors.departured ? (
+                                            <Form.Text className="text-danger">{formik.errors.flightCode}</Form.Text>)
+                                            : null
+                                        }
                                     </Form.Group>
                                 </Col>
                                 <Col className="pl-1" md="6">
                                     <Form.Group>
                                         <label>Jam Kepulangan</label>
                                         <Form.Control
-                                            defaultValue=""
-                                            placeholder=""
+                                            name="arrived"
+                                            values={formik.values.arrived}
+                                            onChange={formik.handleChange}
+                                            onKeyUp={formik.handleBlur}
                                             type="text"
-                                        ></Form.Control>
+                                            disabled={loadingReservartion}
+                                            isInvalid={formik.touched.arrived && formik.errors.arrived}
+                                        />
+                                        {formik.touched.arrived && formik.errors.arrived ? (
+                                            <Form.Text className="text-danger">{formik.errors.flightCode}</Form.Text>)
+                                            : null
+                                        }
                                     </Form.Group>
                                 </Col>
                             </Row>
                             <Row>
-                                <Col className="py-1">
+                                <Col className="pr-1">
+                                    <Form.Group>
+                                        <label>Nama PIC</label>
+                                        <Form.Control
+                                            name="picName"
+                                            values={formik.values.picName}
+                                            onChange={formik.handleChange}
+                                            onKeyUp={formik.handleBlur}
+                                            type="text"
+                                            disabled={loadingReservartion}
+                                            isInvalid={formik.touched.picName && formik.errors.picName}
+                                        />
+                                        {formik.touched.picName && formik.errors.picName ? (
+                                            <Form.Text className="text-danger">{formik.errors.flightCode}</Form.Text>)
+                                            : null
+                                        }
+                                    </Form.Group>
+                                </Col>
+                                <Col className="pl-1">
                                     <Form.Group>
                                         <label>PIC / Kontak Travel Agent</label>
                                         <Form.Control
-                                            placeholder=""
+                                            name="picContact"
+                                            values={formik.values.picContact}
+                                            onChange={formik.handleChange}
+                                            onKeyUp={formik.handleBlur}
                                             type="text"
-                                        ></Form.Control>
+                                            disabled={loadingReservartion}
+                                            isInvalid={formik.touched.picContact && formik.errors.picContact}
+                                        />
+                                        {formik.touched.picContact && formik.errors.flightCode ? (
+                                            <Form.Text className="text-danger">{formik.errors.flightCode}</Form.Text>)
+                                            : null
+                                        }
                                     </Form.Group>
                                 </Col>
                             </Row>
@@ -275,9 +464,32 @@ const Reservasi = () => {
                                     <Form.Group>
                                         <label>Metode Pembayaran</label>
                                         <Form.Control
-                                            placeholder=""
-                                            type="number"
-                                        ></Form.Control>
+                                            name="paymentMethod"
+                                            values={formik.values.paymentMethod}
+                                            onChange={formik.handleChange}
+                                            onKeyUp={formik.handleBlur}
+                                            type="text"
+                                            disabled={loadingReservartion}
+                                            isInvalid={formik.touched.paymentMethod && formik.errors.paymentMethod}
+                                        />
+                                        {formik.touched.paymentMethod && formik.errors.paymentMethod ? (
+                                            <Form.Text className="text-danger">{formik.errors.flightCode}</Form.Text>)
+                                            : null
+                                        }
+                                    </Form.Group>
+                                </Col>
+                            </Row>
+                            <Row style={{ display: 'none' }}>
+                                <Col className="py-1">
+                                    <Form.Group>
+                                        <Form.Control
+                                            name="route"
+                                            values={formik.values.route}
+                                            onChange={formik.handleChange}
+                                            onKeyUp={formik.handleBlur}
+                                            type="text"
+                                            disabled
+                                        />
                                     </Form.Group>
                                 </Col>
                             </Row>
@@ -286,6 +498,7 @@ const Reservasi = () => {
                                     className="btn-fill pull-right"
                                     variant="warning"
                                     onClick={() => setShowModalBook(false)}
+                                    style={{ minWidth: 150 }}
                                 >
                                     Batal
                                 </Button>
@@ -293,8 +506,9 @@ const Reservasi = () => {
                                     className="btn-fill pull-right"
                                     type="submit"
                                     variant="info"
+                                    style={{ minWidth: 150 }}
                                 >
-                                    Pesan Sekarang
+                                    {loadingReservartion ? <Spinner animation="border" variant="secondary" style={{ fonstSize: 10, height: 20, width: 20 }} size="sm" /> : 'Pesan Sekarang'}
                                 </Button>
                             </div>
                             <div className="clearfix"></div>

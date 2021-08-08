@@ -11,6 +11,7 @@ import {
     Modal
 } from "react-bootstrap";
 import CardMuthowif from "components/CardMuthowif/CardMuthowif";
+import TableTravelReservation from "components/TableTravelReservation/TableTravelReservation";
 
 const ReservasiList = () => {
     const [listMuthowif, setListMuthowif] = useState([]);
@@ -52,14 +53,7 @@ const ReservasiList = () => {
             <Container fluid>
                 <Row>
                     <Col md="12">
-                        <Card>
-                            <Card.Header>
-                                <Card.Title as="h4">Reservasi List</Card.Title>
-                            </Card.Header>
-                            <Card.Body>
-                                
-                            </Card.Body>
-                        </Card>
+                        <TableTravelReservation />
                     </Col>
                 </Row>
             </Container>
