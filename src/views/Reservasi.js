@@ -140,7 +140,7 @@ const Reservasi = () => {
     useEffect(() => {
         if (dateRange.length > 0) {
             setDateRequired(false);
-            const startDate = moment(dateRange[0]).format('DD-MM-YYYY');
+            const startDate = moment(dateRange[0]).format('YYYY-MM-DD');
             const endDate = moment(dateRange[1]).format('YYYY-MM-DD');
             setStartDate(startDate);
             setEndDate(endDate);
