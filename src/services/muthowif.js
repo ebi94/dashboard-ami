@@ -41,8 +41,20 @@ const deleteMuthowif = (id) => {
         });
 };
 
+const getDetailMuthowif = (id) => {
+    return axios.get(baseUrl + '/muthowif/' + id)
+        .then((response) => {
+            const data = response && response.data;
+            return data;
+        })
+        .catch((response) => {
+            return response;
+        });
+};
+
 export {
     getListMuthowif,
     editMuthowif,
-    deleteMuthowif
+    deleteMuthowif,
+    getDetailMuthowif
 }

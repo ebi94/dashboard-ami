@@ -14,3 +14,13 @@
     display         : block;
     width           : 100%;
 }
+
+.h4-custom {
+    margin-top: 0;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.border-ch {
+    border-bottom: 1px solid #f1f1f1 !important;
+}

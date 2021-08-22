@@ -40,6 +40,8 @@ const Reservasi = () => {
     const [emailTravel, setEmailTravel] = useState();
     const [muthowifId, setMuthowifId] = useState(0);
 
+    const [muthowifName, setMuthowifName] = useState();
+    const [travelName, setTravelName] = useState();
     const [startDate, setStartDate] = useState();
     const [endDate, setEndDate] = useState();
 
@@ -78,6 +80,7 @@ const Reservasi = () => {
     };
 
     const onClickBook = (data) => {
+        setMuthowifName(data.firstName, ' ', data.lastName);
         setMuthowifId(data.id);
         setEmailMuthowif(data.email);
         setDataBook(data);
@@ -99,6 +102,9 @@ const Reservasi = () => {
             .required('Harap di isi !'),
         paymentMethod: Yup.string()
             .required('Harap di isi !'),
+        jmlJamaah: Yup.number()
+            .max(35, "Maks 35 jamaah untuk 1 Reservasi")
+            .required('Harap di isi !'),
     });
 
     const handleSelect = (e) => {
@@ -119,6 +125,8 @@ const Reservasi = () => {
         initialValues: {
             startDate,
             endDate,
+            muthowifName,
+            travelName,
             airline: '',
             flightCode: '',
             departured: '',
@@ -126,6 +134,7 @@ const Reservasi = () => {
             picName: '',
             picContact: '',
             paymentMethod: '',
+            jmlJamaah: 0,
             emailTravel,
             emailMuthowif,
             route,
@@ -161,7 +170,9 @@ const Reservasi = () => {
     useEffect(() => {
         const dataTravel = JSON.parse(localStorage.getItem('dataUser'));
         const email = dataTravel && dataTravel.email;
+        const travelName = dataTravel && dataTravel.travelName;
         setEmailTravel(email);
+        setTravelName(travelName);
     }, [])
 
     return (
@@ -339,14 +350,34 @@ const Reservasi = () => {
                                         <label>Nama Muthowif</label>
                                         <Form.Control
                                             disabled
-                                            defaultValue={dataBook.firstName}
+                                            defaultValue={muthowifName}
+                                            name="muthowifName"
+                                            value={formik.values.muthowifName}
                                             type="text"
                                         ></Form.Control>
                                     </Form.Group>
                                 </Col>
                             </Row>
                             <Row>
-                                <Col className="pr-1" md="6">
+                                <Col className="pr-1" md="4">
+                                    <Form.Group>
+                                        <label>Jumlah Jamaah</label>
+                                        <Form.Control
+                                            name="jmlJamaah"
+                                            value={formik.values.jmlJamaah}
+                                            onChange={formik.handleChange}
+                                            onKeyUp={formik.handleBlur}
+                                            type="number"
+                                            disabled={loadingReservartion}
+                                            isInvalid={formik.touched.jmlJamaah && formik.errors.jmlJamaah}
+                                        />
+                                        {formik.touched.jmlJamaah && formik.errors.jmlJamaah ? (
+                                            <Form.Text className="text-danger">{formik.errors.jmlJamaah}</Form.Text>)
+                                            : null
+                                        }
+                                    </Form.Group>
+                                </Col>
+                                <Col className="pr-1" md="4">
                                     <Form.Group>
                                         <label>Maskapai</label>
                                         <Form.Control
@@ -364,7 +395,7 @@ const Reservasi = () => {
                                         }
                                     </Form.Group>
                                 </Col>
-                                <Col className="pl-1" md="6">
+                                <Col className="pl-1" md="4">
                                     <Form.Group>
                                         <label>Kode Penerbangan</label>
                                         <Form.Control
@@ -469,6 +500,26 @@ const Reservasi = () => {
                                             onChange={formik.handleChange}
                                             onKeyUp={formik.handleBlur}
                                             type="text"
+                                            disabled={loadingReservartion}
+                                            isInvalid={formik.touched.paymentMethod && formik.errors.paymentMethod}
+                                        />
+                                        {formik.touched.paymentMethod && formik.errors.paymentMethod ? (
+                                            <Form.Text className="text-danger">{formik.errors.flightCode}</Form.Text>)
+                                            : null
+                                        }
+                                    </Form.Group>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col className="py-1">
+                                    <Form.Group>
+                                        <label>Itenary / Jadwal Perjalanan</label>
+                                        <Form.Control
+                                            name="itenary"
+                                            values=""
+                                            onChange={formik.handleChange}
+                                            onKeyUp={formik.handleBlur}
+                                            type="file"
                                             disabled={loadingReservartion}
                                             isInvalid={formik.touched.paymentMethod && formik.errors.paymentMethod}
                                         />

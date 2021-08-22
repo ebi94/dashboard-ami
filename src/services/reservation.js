@@ -18,9 +18,13 @@ const createReservation = (values) => {
         route: values && values.route,
         paymentMethod: values && values.paymentMethod,
         muthowifId: values && values.muthowifId,
+        muthowifName: values && values.muthowifName,
+        travelName: values && values.travelName,
+        jmlJamaah: values && values.jmlJamaah,
         emailTravel: values && values.emailTravel,
         emailMuthowif: values && values.emailMuthowif,
-        travelId: travelId
+        travelId: travelId,
+        status: 1
     })
         .then((response) => {
             return { ...response };
@@ -50,8 +54,19 @@ const getReservationListbyTravel = (id) => {
     });
 };
 
+const getReservationDetail = (id) => {
+    return axios.get(baseUrl +  `/travelReservation/detail/${id}`)
+    .then((response) => {
+        return { ...response };
+    })
+    .catch(function (error) {
+        console.log('error', error);
+    });
+};
+
 export {
     createReservation,
     getReservationList,
+    getReservationDetail,
     getReservationListbyTravel
 };

@@ -41,8 +41,20 @@ const deleteTravel = (id) => {
         });
 };
 
+const getDetailTravel = (id) => {
+    return axios.get(baseUrl + '/travel/' + id)
+        .then((response) => {
+            const data = response && response.data;
+            return data;
+        })
+        .catch((response) => {
+            return response;
+        });
+}
+
 export {
     getListTravel,
     editTravel,
-    deleteTravel
+    deleteTravel,
+    getDetailTravel
 }

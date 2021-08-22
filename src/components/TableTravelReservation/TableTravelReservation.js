@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useFormik } from "formik";
+import { NavLink } from "react-router-dom";
 import NotificationAlert from "react-notification-alert";
 import swal from "sweetalert";
 // react-bootstrap components
@@ -98,6 +99,36 @@ const TableTravelReservation = () => {
 		setDataReservationTravel(data);
 	};
 
+	const statusBadge = (id) => {
+		switch (id) {
+			case 1:
+				return (
+					<Badge variant="info">Booked</Badge>
+				);
+			case 2:
+				return (
+					<Badge variant="primary">Paid</Badge>
+				);
+			case 3:
+				return (
+					<Badge variant="success">Confirmed</Badge>
+				);
+			case 4:
+				return (
+					<Badge variant="warning">Canceled</Badge>
+				);
+			case 5:
+				return (
+					<Badge variant="info">On the way</Badge>
+				);
+			case 6:
+				return (
+					<Badge variant="success">Finish</Badge>
+				);
+			default:
+				break;
+		}
+	};
 
 	const formik = useFormik({
 		enableReinitialize: true,
@@ -155,24 +186,19 @@ const TableTravelReservation = () => {
 								}
 							</thead>
 							<tbody>
-								{console.log(dataReservationTravel)}
 								{dataReservationTravel.length > 0 ? (
 									dataReservationTravel.map((item, index) => (
 										<tr key={index}>
 											{roleId === 1 ?
 												<>
 													<td>{item.id}</td>
-													<td>{item.muthowifId}</td>
+													<td>{item.muthowifName}</td>
 													<td>{item.travelId}</td>
 													<td>{item.startDate} - {item.endDate}</td>
 													<td>{item.flightCode}</td>
 													<td>{item.airline}</td>
 													<td>
-														{item.status === 1 ?
-															<Badge variant="success">Terkonfirmasi</Badge>
-															:
-															<Badge variant="warning">Belum Terkonfirmasi</Badge>
-														}
+														{statusBadge(item.status)}
 													</td>
 													<td>
 														<OverlayTrigger
@@ -182,46 +208,31 @@ const TableTravelReservation = () => {
 																</Tooltip>
 															}
 														>
-															<Button
-																className="btn-simple btn-link p-1"
-																type="button"
-																variant="success"
-																onClick={() => console.log(item)}
+															<NavLink
+																to={`/admin/reservasi-detail/${item.id}`}
+																activeClassName="active"
 															>
-																<i className="fas fa-eye"></i>
-															</Button>
-														</OverlayTrigger>
-														<OverlayTrigger
-															overlay={
-																<Tooltip id="tooltip-488980961">
-																	Ubah..
-																</Tooltip>
-															}
-														>
-															<Button
-																className="btn-simple btn-link p-1"
-																type="button"
-																variant="info"
-																onClick={() => console.log(item)}
-															>
-																<i className="fas fa-edit"></i>
-															</Button>
+																<Button
+																	className="btn-simple btn-link p-1"
+																	type="button"
+																	variant="success"
+																>
+																	<i className="fas fa-eye"></i>
+																</Button>
+
+															</NavLink>
 														</OverlayTrigger>
 													</td>
 												</>
 												:
 												<>
 													<td>{item.id}</td>
-													<td>{item.muthowifId}</td>
+													<td>{item.muthowifName}</td>
 													<td>{item.startDate} - {item.endDate}</td>
 													<td>{item.flightCode}</td>
 													<td>{item.airline}</td>
 													<td>
-														{item.status === 1 ?
-															<Badge variant="success">Terkonfirmasi</Badge>
-															:
-															<Badge variant="warning">Belum Terkonfirmasi</Badge>
-														}
+														{statusBadge(item.status)}
 													</td>
 													<td>
 														<OverlayTrigger
@@ -231,30 +242,19 @@ const TableTravelReservation = () => {
 																</Tooltip>
 															}
 														>
-															<Button
-																className="btn-simple btn-link p-1"
-																type="button"
-																variant="success"
-																onClick={() => console.log(item)}
+															<NavLink
+																to={`/admin/reservasi-detail/${item.id}`}
+																activeClassName="active"
 															>
-																<i className="fas fa-eye"></i>
-															</Button>
-														</OverlayTrigger>
-														<OverlayTrigger
-															overlay={
-																<Tooltip id="tooltip-488980961">
-																	Ubah..
-																</Tooltip>
-															}
-														>
-															<Button
-																className="btn-simple btn-link p-1"
-																type="button"
-																variant="info"
-																onClick={() => console.log(item)}
-															>
-																<i className="fas fa-edit"></i>
-															</Button>
+																<Button
+																	className="btn-simple btn-link p-1"
+																	type="button"
+																	variant="success"
+																>
+																	<i className="fas fa-eye"></i>
+																</Button>
+
+															</NavLink>
 														</OverlayTrigger>
 													</td>
 												</>

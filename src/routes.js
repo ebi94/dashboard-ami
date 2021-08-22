@@ -20,6 +20,7 @@ import UserProfile from "views/UserProfile.js";
 import TravelProfile from "views/TravelProfile.js";
 import Reservasi from "views/Reservasi.js";
 import ReservasiList from "views/ReservasiList";
+import ReservasiDetail from "views/ReservasiDetail";
 import Muthowif from "views/Muthowif.js";
 import Travel from "views/Travel.js";
 import TableList from "views/TableList.js";
@@ -42,6 +43,7 @@ if (dataJson && dataJson.role === 1) {
       icon: "nc-icon nc-single-02",
       component: Muthowif,
       layout: "/admin",
+      sidebar: true
     },
     {
       path: "/travel",
@@ -49,6 +51,7 @@ if (dataJson && dataJson.role === 1) {
       icon: "nc-icon nc-istanbul",
       component: Travel,
       layout: "/admin",
+      sidebar: true
     },
     {
       path: "/reservasi-list",
@@ -56,6 +59,15 @@ if (dataJson && dataJson.role === 1) {
       icon: "nc-icon nc-notes",
       component: ReservasiList,
       layout: "/admin",
+      sidebar: true
+    },
+    {
+      path: "/reservasi-detail/:id",
+      name: "Reservasi Detail",
+      icon: "nc-icon nc-notes",
+      component: ReservasiDetail,
+      layout: "/admin",
+      sidebar: false
     }
   ];
 } else {
@@ -66,6 +78,7 @@ if (dataJson && dataJson.role === 1) {
     //   icon: "nc-icon nc-chart-pie-35",
     //   component: Dashboard,
     //   layout: "/admin",
+    //   sidebar: true
     // },
     // {
     //   path: "/muthowif",
@@ -73,6 +86,7 @@ if (dataJson && dataJson.role === 1) {
     //   icon: "nc-icon nc-single-02",
     //   component: Muthowif,
     //   layout: "/admin",
+    // sidebar: true
     // },
     // {
     //   path: "/travel",
@@ -80,6 +94,7 @@ if (dataJson && dataJson.role === 1) {
     //   icon: "nc-icon nc-istanbul",
     //   component: Travel,
     //   layout: "/admin",
+    // sidebar: true
     // },
     {
       path: "/reservasi",
@@ -87,6 +102,7 @@ if (dataJson && dataJson.role === 1) {
       icon: "nc-icon nc-notes",
       component: Reservasi,
       layout: "/admin",
+      sidebar: true
     },
     {
       path: "/reservasi-list",
@@ -94,6 +110,7 @@ if (dataJson && dataJson.role === 1) {
       icon: "nc-icon nc-notes",
       component: ReservasiList,
       layout: "/admin",
+      sidebar: true
     },
     {
       path: "/travel",
@@ -101,6 +118,15 @@ if (dataJson && dataJson.role === 1) {
       icon: "nc-icon nc-circle-09",
       component: TravelProfile,
       layout: "/admin",
+      sidebar: true
+    },
+    {
+      path: "/reservasi-detail/:id",
+      name: "Reservasi Detail",
+      icon: "nc-icon nc-notes",
+      component: ReservasiDetail,
+      layout: "/admin",
+      sidebar: false
     },
     // {
     //   path: "/table",
@@ -108,6 +134,7 @@ if (dataJson && dataJson.role === 1) {
     //   icon: "nc-icon nc-notes",
     //   component: TableList,
     //   layout: "/admin",
+    //   sidebar: true
     // },
     // {
     //   path: "/typography",
@@ -115,6 +142,7 @@ if (dataJson && dataJson.role === 1) {
     //   icon: "nc-icon nc-paper-2",
     //   component: Typography,
     //   layout: "/admin",
+    //   sidebar: true
     // },
     // {
     //   path: "/icons",
@@ -122,6 +150,7 @@ if (dataJson && dataJson.role === 1) {
     //   icon: "nc-icon nc-atom",
     //   component: Icons,
     //   layout: "/admin",
+    //   sidebar: true
     // },
     // {
     //   path: "/maps",
@@ -129,6 +158,7 @@ if (dataJson && dataJson.role === 1) {
     //   icon: "nc-icon nc-pin-3",
     //   component: Maps,
     //   layout: "/admin",
+    //   sidebar: true
     // },
     // {
     //   path: "/notifications",
@@ -136,6 +166,7 @@ if (dataJson && dataJson.role === 1) {
     //   icon: "nc-icon nc-bell-55",
     //   component: Notifications,
     //   layout: "/admin",
+    //   sidebar: true
     // },
     // {
     //   path: "/reservasi-form",
@@ -143,6 +174,7 @@ if (dataJson && dataJson.role === 1) {
     //   icon: "nc-icon nc-notes",
     //   component: ReservasiForm,
     //   layout: "/admin",
+    //   sidebar: true
     // }
   ];
 }
