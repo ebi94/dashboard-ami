@@ -22,6 +22,7 @@ import AdminNavbar from "components/Navbars/AdminNavbar";
 import Footer from "components/Footer/Footer";
 import Sidebar from "components/Sidebar/Sidebar";
 import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
+import WhatsappChat from "components/WhatsappChat/WhatsappChat.js";
 
 import routes from "routes.js";
 
@@ -85,6 +86,7 @@ function Admin() {
         image={image}
         setImage={(image) => setImage(image)}
       />
+      <WhatsappChat />
     </>
   );
 }
