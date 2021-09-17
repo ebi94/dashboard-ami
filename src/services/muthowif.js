@@ -13,6 +13,22 @@ const getListMuthowif = () => {
         });
 };
 
+const getListMuthowifAvailable = (startDate, endDate) => {
+    const bodyReq = {
+        startDate,
+        endDate
+    };
+
+    return axios.post(baseUrl + '/muthowif/available', bodyReq)
+        .then((response) => {
+            const data = response && response.data && response.data.data;
+            return data;
+        })
+        .catch(function (error) {
+            console.log('error', error);
+        });
+};
+
 const editMuthowif = (data, idMuthowif) => {
     const bodyReq = {
         firstName: data.firstName,
@@ -54,6 +70,7 @@ const getDetailMuthowif = (id) => {
 
 export {
     getListMuthowif,
+    getListMuthowifAvailable,
     editMuthowif,
     deleteMuthowif,
     getDetailMuthowif

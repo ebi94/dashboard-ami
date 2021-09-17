@@ -7,7 +7,7 @@ import { useFormik } from "formik";
 import moment from "moment";
 import * as Yup from 'yup';
 import swal from "sweetalert";
-import { getListMuthowif } from 'services/muthowif';
+import { getListMuthowifAvailable } from 'services/muthowif';
 
 
 const SearchForm = props => {
@@ -19,7 +19,7 @@ const SearchForm = props => {
     const [route, setRoute] = useState(0);
 
     const handleSearch = async (values) => {
-        const res = await getListMuthowif();
+        const res = await getListMuthowifAvailable();
         if (res) {
             onData(res);
             setLoading(false);

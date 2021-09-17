@@ -18,7 +18,7 @@ import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import FlatPickr from "react-flatpickr";
 import CardMuthowif from "components/CardMuthowif/CardMuthowif";
 import { createReservation } from "services/reservation";
-import { getListMuthowif } from "services/muthowif";
+import { getListMuthowifAvailable } from "services/muthowif";
 
 const Reservasi = () => {
     const [listMuthowif, setListMuthowif] = useState([]);
@@ -47,7 +47,7 @@ const Reservasi = () => {
 
     const getMuthowif = async () => {
         setLoading(true)
-        const res = await getListMuthowif();
+        const res = await getListMuthowifAvailable(startDate, endDate);
         if (res) {
             setListMuthowif(res);
             setLoading(false);
