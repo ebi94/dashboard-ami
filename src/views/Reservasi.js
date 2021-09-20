@@ -44,6 +44,8 @@ const Reservasi = () => {
     const [travelName, setTravelName] = useState();
     const [startDate, setStartDate] = useState();
     const [endDate, setEndDate] = useState();
+    const [totalDay, setTotalDay] = useState();
+    const [totalPayment, setTotalPayment] = useState();
 
     const getMuthowif = async () => {
         setLoading(true)
@@ -116,7 +118,16 @@ const Reservasi = () => {
     const optionsFlatpickr = {
         mode: 'range',
         minDate: 'today',
-        dateFormat: 'd-m-Y'
+        dateFormat: 'd-m-Y',
+        onClose: function (selectedDates, dateStr, instance) {
+            const daysInRange = document.getElementsByClassName('inRange');
+            const daysLengthTotal = daysInRange.length + 1;
+            if (daysLengthTotal === 1) {
+                setTotalDay(1)
+            } else {
+                setTotalDay(daysLengthTotal + 1)
+            }
+        }
     };
 
     const formik = useFormik({
@@ -139,12 +150,21 @@ const Reservasi = () => {
             emailMuthowif,
             route,
             muthowifId,
+            totalDay,
+            totalPayment
         },
         onSubmit: (values) => {
             handleReservation(values);
             setLoadingReservation(true);
         },
     });
+
+    useEffect(() => {
+        if (totalDay) {
+            const totalPay = totalDay * 250;
+            setTotalPayment(totalPay)
+        }
+    }, [totalDay]);
 
     useEffect(() => {
         if (dateRange.length > 0) {

@@ -24,6 +24,8 @@ const createReservation = (values) => {
         emailTravel: values && values.emailTravel,
         emailMuthowif: values && values.emailMuthowif,
         travelId: travelId,
+        totalDay: values && values.totalDay,
+        totalPayment: values && values.totalPayment,
         status: 1
     })
         .then((response) => {
