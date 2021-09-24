@@ -35,7 +35,8 @@ const editMuthowif = (data, idMuthowif) => {
         email: data.email,
         phone: data.phone,
         address: data.address,
-    }
+    };
+
     return axios.patch(baseUrl + '/muthowif/' + idMuthowif, bodyReq)
         .then((response) => {
             const data = response && response.data;

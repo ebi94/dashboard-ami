@@ -9,8 +9,9 @@ import {
     Button,
     Form
 } from 'react-bootstrap';
+import swal from 'sweetalert';
 import { Document } from 'react-pdf';
-import { getReservationDetail } from 'services/reservation';
+import { getReservationDetail, uploadPayment, updateReservation } from 'services/reservation';
 import { getDetailMuthowif } from 'services/muthowif';
 import { getDetailTravel } from 'services/travel';
 
@@ -19,10 +20,19 @@ const ReservasiDetail = () => {
 
     const data = JSON.parse(localStorage.getItem('dataUser'));
 
+    const baseUrl = process.env.REACT_APP_BACKEND_API;
+
     const [dataDetail, setDataDetail] = useState({});
     const [dataMuthowif, setDataMuthowif] = useState({});
     const [dataTravel, setDataTravel] = useState({});
 
+    const [image, setImage] = useState(null);
+    const [loading, setLoading] = useState(false);
+
+    const handleChangeUpload = (e) => {
+        setImage(e.target.files[0]);
+        console.log(e.target.files[0]);
+    };
 
     const getDataMuthowif = async (id) => {
         const res = await getDetailMuthowif(id);
@@ -81,6 +91,41 @@ const ReservasiDetail = () => {
         }
     };
 
+    const handleUploadPayment = async () => {
+        setLoading(true);
+        const res = await uploadPayment(id, image);
+        if (res && res.status === 200) {
+            const messages = res && res.data && res.data.messages;
+            swal("Sukses", messages, "success").then(() => {
+                setLoading(false);
+            });
+        } else {
+            swal("Error", 'Error', "error").then(() => {
+                setLoading(false);
+            });
+        }
+    };
+
+    const handleUpdatePayment = async () => {
+        setLoading(true);
+        const values = {
+            status: 2
+        };
+
+        const res = await updateReservation(id, values);
+
+        if (res && res.status === 200) {
+            const messages = res && res.data && res.data.messages;
+            swal("Sukses", 'Pembayaran Sudah diterima', "success").then(() => {
+                setLoading(false);
+            });
+        } else {
+            swal("Error", 'Error', "error").then(() => {
+                setLoading(false);
+            });
+        }
+    };
+
     useEffect(() => {
         getDataDetail(id);
     }, []);
@@ -93,10 +138,11 @@ const ReservasiDetail = () => {
         <Container fluid>
             <Row className="mb-4">
                 <Col md="6">
+                    <span>Reservasi Id : {id}</span><br />
                     {statusBadge(dataDetail.status)}
                 </Col>
                 <Col md="6">
-                    {dataDetail.startDate} - {dataDetail.endDate}
+                    Booking Range : {dataDetail.startDate} - {dataDetail.endDate}
                 </Col>
             </Row>
             {data.role === 1 ?
@@ -227,6 +273,11 @@ const ReservasiDetail = () => {
                             {data.role === 1 ?
                                 <Form>
                                     <Row>
+                                        <Col md="12">
+                                            <img src={`${baseUrl}/files/confirmPayment/${dataDetail && dataDetail.photoPaymentUrl}`} alt="Bukti Pembayaran" />
+                                        </Col>
+                                    </Row>
+                                    <Row>
                                         <Col md="6">
                                             <span>Foto Bukti Pembayaran</span>
 
@@ -236,34 +287,38 @@ const ReservasiDetail = () => {
                                                 className="btn-fill pull-right"
                                                 variant="info"
                                                 style={{ minWidth: '100%' }}
+                                                disabled={loading}
+                                                onClick={() => handleUpdatePayment()}
                                             >
-                                                Terima Pembayaran
+                                                {loading ? 'Tunggu Sebentar . . .' : 'Terima Pembayaran'}
                                             </Button>
                                         </Col>
                                     </Row>
                                 </Form>
                                 :
-                                <Form>
-                                    <Row>
-                                        <Col md="6">
-                                            <span>Foto Bukti Pembayaran</span>
-                                            <Form.Control
-                                                name="buktiPembayran"
-                                                values=""
-                                                type="file"
-                                            />
-                                        </Col>
-                                        <Col md="6">
-                                            <Button
-                                                className="btn-fill pull-right"
-                                                variant="info"
-                                                style={{ minWidth: '100%' }}
-                                            >
-                                                Konfirmasi Pembayaran
-                                            </Button>
-                                        </Col>
-                                    </Row>
-                                </Form>
+                                <Row>
+                                    <Col md="6">
+                                        <span>Foto Bukti Pembayaran</span>
+                                        <Form.Control
+                                            name="imagePayment"
+                                            values=""
+                                            onChange={(e) => handleChangeUpload(e)}
+                                            type="file"
+                                        />
+                                    </Col>
+                                    <Col md="6">
+                                        <Button
+                                            className="btn-fill pull-right"
+                                            variant="info"
+                                            type="submit"
+                                            style={{ minWidth: '100%' }}
+                                            onClick={() => handleUploadPayment()}
+                                            disabled={image === null ? true : false || loading}
+                                        >
+                                            {loading ? 'Tunggu Sebentar . . .' : 'Konfirmasi Pembayaran'}
+                                        </Button>
+                                    </Col>
+                                </Row>
                             }
                         </Card.Body>
                     </Card>

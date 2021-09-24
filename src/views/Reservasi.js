@@ -17,7 +17,7 @@ import swal from "sweetalert";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import FlatPickr from "react-flatpickr";
 import CardMuthowif from "components/CardMuthowif/CardMuthowif";
-import { createReservation } from "services/reservation";
+import { createReservation, getLastReservation } from "services/reservation";
 import { getListMuthowifAvailable } from "services/muthowif";
 
 const Reservasi = () => {
@@ -46,6 +46,10 @@ const Reservasi = () => {
     const [endDate, setEndDate] = useState();
     const [totalDay, setTotalDay] = useState();
     const [totalPayment, setTotalPayment] = useState();
+    const [image, setImage] = useState(null);
+    const [lastId, setLastId] = useState();
+
+    const [valueForm, setValueForm] = useState({});
 
     const getMuthowif = async () => {
         setLoading(true)
@@ -61,19 +65,32 @@ const Reservasi = () => {
         }
     };
 
-    const handleReservation = async (values) => {
-        const res = await createReservation(values);
+    const handleReservation = async () => {
+        const res = await createReservation(valueForm, image, lastId);
         if (res && res.status === 201) {
             const messages = res && res.data && res.data.messages;
-            console.log('res', res)
             swal("Sukses", messages, "success").then(() => {
                 setShowModalBook(false);
                 setLoadingReservation(false);
                 window.location.replace("/admin/reservasi-list");
             });
         } else {
-
+            swal("Error", 'Error', "error").then(() => {
+                setShowModalBook(false);
+                setLoadingReservation(false);
+            });
         }
+    };
+
+
+    const getLastId = async () => {
+        const res = await getLastReservation();
+        console.log('res', res)
+        const data = res && res.data && res.data.data && res.data.data[0] && res.data.data[0].id
+        console.log('last id data', data)
+        const id = +data + 1;
+        console.log('last id', id)
+        setLastId(id);
     };
 
     const onClickDetail = (data) => {
@@ -115,6 +132,10 @@ const Reservasi = () => {
         };
     };
 
+    const handleChangePdf = (e) => {
+        setImage(e.target.files[0]);
+    };
+
     const optionsFlatpickr = {
         mode: 'range',
         minDate: 'today',
@@ -151,10 +172,11 @@ const Reservasi = () => {
             route,
             muthowifId,
             totalDay,
-            totalPayment
+            totalPayment,
         },
         onSubmit: (values) => {
-            handleReservation(values);
+            getLastId();
+            setValueForm(values)
             setLoadingReservation(true);
         },
     });
@@ -194,6 +216,12 @@ const Reservasi = () => {
         setEmailTravel(email);
         setTravelName(travelName);
     }, [])
+
+    useEffect(() => {
+        if (lastId !== undefined) {
+            handleReservation();
+        }
+    }, [lastId])
 
     return (
         <>
@@ -535,10 +563,11 @@ const Reservasi = () => {
                                     <Form.Group>
                                         <label>Itenary / Jadwal Perjalanan</label>
                                         <Form.Control
-                                            name="itenary"
                                             values=""
-                                            onChange={formik.handleChange}
+                                            onChange={(e) => handleChangePdf(e)}
                                             onKeyUp={formik.handleBlur}
+                                            name="pdfitenary"
+                                            id="pdfitenary"
                                             type="file"
                                             disabled={loadingReservartion}
                                             isInvalid={formik.touched.paymentMethod && formik.errors.paymentMethod}
