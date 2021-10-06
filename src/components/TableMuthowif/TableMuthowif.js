@@ -176,7 +176,7 @@ const TableMuthowif = () => {
 														<i className="fas fa-eye"></i>
 													</Button>
 												</OverlayTrigger>
-												<OverlayTrigger
+												{/* <OverlayTrigger
 													overlay={
 														<Tooltip id="tooltip-488980961">
 															Ubah..
@@ -205,7 +205,7 @@ const TableMuthowif = () => {
 													>
 														<i className="fas fa-times"></i>
 													</Button>
-												</OverlayTrigger>
+												</OverlayTrigger> */}
 											</td>
 										</tr>
 									))

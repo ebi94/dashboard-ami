@@ -29,6 +29,7 @@ import Icons from "views/Icons.js";
 import Maps from "views/Maps.js";
 import Notifications from "views/Notifications.js";
 import ReservasiForm from "views/ReservasiForm";
+import Settings from "views/Settings";
 
 const data = localStorage.getItem('dataUser');
 const dataJson = JSON.parse(data);
@@ -62,13 +63,21 @@ if (dataJson && dataJson.role === 1) {
       sidebar: true
     },
     {
+      path: "/setting",
+      name: "Setting",
+      icon: "nc-icon nc-settings-gear-64",
+      component: Settings,
+      layout: "/admin",
+      sidebar: true
+    },
+    {
       path: "/reservasi-detail/:id",
       name: "Reservasi Detail",
       icon: "nc-icon nc-notes",
       component: ReservasiDetail,
       layout: "/admin",
       sidebar: false
-    }
+    },
   ];
 } else {
   dashboardRoutes = [

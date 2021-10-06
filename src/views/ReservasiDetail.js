@@ -10,7 +10,7 @@ import {
     Form
 } from 'react-bootstrap';
 import swal from 'sweetalert';
-import { Document } from 'react-pdf';
+import { Document, Page } from 'react-pdf';
 import { getReservationDetail, uploadPayment, updateReservation } from 'services/reservation';
 import { getDetailMuthowif } from 'services/muthowif';
 import { getDetailTravel } from 'services/travel';
@@ -28,6 +28,27 @@ const ReservasiDetail = () => {
 
     const [image, setImage] = useState(null);
     const [loading, setLoading] = useState(false);
+
+    const [numPages, setNumPages] = useState(null);
+    const [pageNumber, setPageNumber] = useState(1);
+
+    const onDocumentLoadSuccess = ({ numPages }) => {
+        setNumPages(numPages);
+        setPageNumber(1);
+    };
+
+
+    const changePage = (offset) => {
+        setPageNumber(prevPageNumber => prevPageNumber + offset);
+    }
+
+    const previousPage = () => {
+        changePage(-1);
+    }
+
+    const nextPage = () => {
+        changePage(1);
+    }
 
     const handleChangeUpload = (e) => {
         setImage(e.target.files[0]);
@@ -124,6 +145,11 @@ const ReservasiDetail = () => {
                 setLoading(false);
             });
         }
+    };
+
+    const downloadItenary = () => {
+        const urlDownload = `${process.env.REACT_APP_BACKEND_API}/files/itenary/${dataDetail.pdfItenaryUrl}`
+        window.open(urlDownload, '_blank').focus();
     };
 
     useEffect(() => {
@@ -235,6 +261,54 @@ const ReservasiDetail = () => {
                 </Col>
             </Row>
             <Row>
+                <Col>
+                    <Card>
+                        <Card.Header>
+                            <Card.Title as="h4">Jadwal Perjalanan / Itenary</Card.Title>
+                        </Card.Header>
+                        <Card.Body>
+                            <Row>
+                                <Col style={{ textAlign: 'center', margin: '0 auto' }}>
+                                    {/* {`${process.env.REACT_APP_BACKEND_API}/files/itenary/${dataDetail.pdfItenaryUrl}`}
+                                    <Document
+                                        file={`${process.env.REACT_APP_BACKEND_API}/files/itenary/${dataDetail.pdfItenaryUrl}`}
+                                        onLoadSuccess={() => onDocumentLoadSuccess()}
+                                    >
+                                        <Page pageNumber={pageNumber} />
+                                    </Document>
+                                    <p>Page {pageNumber} of {numPages}</p>
+                                    <div>
+                                        <div>
+                                            <button
+                                                type="button"
+                                                disabled={pageNumber <= 1}
+                                                onClick={() => previousPage()}
+                                            >
+                                                Previous
+                                            </button>
+                                            <button
+                                                type="button"
+                                                disabled={pageNumber >= numPages}
+                                                onClick={() => nextPage()}
+                                            >
+                                                Next
+                                            </button>
+                                        </div>
+                                    </div> */}
+                                    <Button
+                                        className="btn-fill pull-right"
+                                        variant="primary"
+                                        onClick={() => downloadItenary()}
+                                    >
+                                        Download Itenary
+                                    </Button>
+                                </Col>
+                            </Row>
+                        </Card.Body>
+                    </Card>
+                </Col>
+            </Row>
+            <Row>
                 <Col md="6">
                     <Card>
                         <Card.Header>
@@ -274,20 +348,18 @@ const ReservasiDetail = () => {
                                 <Form>
                                     <Row>
                                         <Col md="12">
-                                            <img src={`${baseUrl}/files/confirmPayment/${dataDetail && dataDetail.photoPaymentUrl}`} alt="Bukti Pembayaran" />
                                         </Col>
                                     </Row>
                                     <Row>
                                         <Col md="6">
                                             <span>Foto Bukti Pembayaran</span>
-
                                         </Col>
                                         <Col md="6">
                                             <Button
                                                 className="btn-fill pull-right"
                                                 variant="info"
                                                 style={{ minWidth: '100%' }}
-                                                disabled={loading}
+                                                disabled={loading || dataDetail && dataDetail.photoPaymentUrl ? false : true}
                                                 onClick={() => handleUpdatePayment()}
                                             >
                                                 {loading ? 'Tunggu Sebentar . . .' : 'Terima Pembayaran'}
@@ -296,14 +368,19 @@ const ReservasiDetail = () => {
                                     </Row>
                                 </Form>
                                 :
+
                                 <Row>
                                     <Col md="6">
                                         <span>Foto Bukti Pembayaran</span>
+                                        {dataDetail && dataDetail.photoPaymentUrl ?
+                                            <img src={`${baseUrl}/files/confirmPayment/${dataDetail && dataDetail.photoPaymentUrl}`} alt="Bukti Pembayaran" style={{ width: '100%' }} />
+                                            : 'Belum Upload Bukti Pembayaran'}
                                         <Form.Control
                                             name="imagePayment"
                                             values=""
                                             onChange={(e) => handleChangeUpload(e)}
                                             type="file"
+                                            disabled={dataDetail && dataDetail.photoPaymentUrl ? true : false}
                                         />
                                     </Col>
                                     <Col md="6">
@@ -313,7 +390,7 @@ const ReservasiDetail = () => {
                                             type="submit"
                                             style={{ minWidth: '100%' }}
                                             onClick={() => handleUploadPayment()}
-                                            disabled={image === null ? true : false || loading}
+                                            disabled={image === null ? true : false || loading || dataDetail && dataDetail.photoPaymentUrl ? true : false}
                                         >
                                             {loading ? 'Tunggu Sebentar . . .' : 'Konfirmasi Pembayaran'}
                                         </Button>
@@ -322,11 +399,6 @@ const ReservasiDetail = () => {
                             }
                         </Card.Body>
                     </Card>
-                </Col>
-            </Row>
-            <Row>
-                <Col md="12">
-                    <Document file="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" />
                 </Col>
             </Row>
         </Container>

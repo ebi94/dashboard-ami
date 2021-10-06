@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/static/css/main.d621e4fa.chunk.css",
-    "main.js": "/static/js/main.72af056a.chunk.js",
-    "main.js.map": "/static/js/main.72af056a.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.6b0440f2.js",
-    "runtime-main.js.map": "/static/js/runtime-main.6b0440f2.js.map",
-    "static/css/2.10f0c96c.chunk.css": "/static/css/2.10f0c96c.chunk.css",
-    "static/js/2.9958e4f0.chunk.js": "/static/js/2.9958e4f0.chunk.js",
-    "static/js/2.9958e4f0.chunk.js.map": "/static/js/2.9958e4f0.chunk.js.map",
+    "main.css": "/static/css/main.54b55e28.chunk.css",
+    "main.js": "/static/js/main.fdac45e3.chunk.js",
+    "main.js.map": "/static/js/main.fdac45e3.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.efb9ee4e.js",
+    "runtime-main.js.map": "/static/js/runtime-main.efb9ee4e.js.map",
+    "static/css/2.e15b677c.chunk.css": "/static/css/2.e15b677c.chunk.css",
+    "static/js/2.97984cdb.chunk.js": "/static/js/2.97984cdb.chunk.js",
+    "static/js/2.97984cdb.chunk.js.map": "/static/js/2.97984cdb.chunk.js.map",
     "index.html": "/index.html",
-    "static/css/2.10f0c96c.chunk.css.map": "/static/css/2.10f0c96c.chunk.css.map",
-    "static/css/main.d621e4fa.chunk.css.map": "/static/css/main.d621e4fa.chunk.css.map",
-    "static/js/2.9958e4f0.chunk.js.LICENSE.txt": "/static/js/2.9958e4f0.chunk.js.LICENSE.txt",
-    "static/js/main.72af056a.chunk.js.LICENSE.txt": "/static/js/main.72af056a.chunk.js.LICENSE.txt",
+    "static/css/2.e15b677c.chunk.css.map": "/static/css/2.e15b677c.chunk.css.map",
+    "static/css/main.54b55e28.chunk.css.map": "/static/css/main.54b55e28.chunk.css.map",
+    "static/js/2.97984cdb.chunk.js.LICENSE.txt": "/static/js/2.97984cdb.chunk.js.LICENSE.txt",
+    "static/js/main.fdac45e3.chunk.js.LICENSE.txt": "/static/js/main.fdac45e3.chunk.js.LICENSE.txt",
     "static/media/WhatsApp.3c500401.svg": "/static/media/WhatsApp.3c500401.svg",
     "static/media/all.min.css": "/static/media/fa-solid-900.f4f93856.woff",
     "static/media/face-3.jpg": "/static/media/face-3.62232de2.jpg",
@@ -25,10 +25,10 @@
     "static/media/sidebar-4.b7eb4d1b.jpg": "/static/media/sidebar-4.b7eb4d1b.jpg"
   },
   "entrypoints": [
-    "static/js/runtime-main.6b0440f2.js",
-    "static/css/2.10f0c96c.chunk.css",
-    "static/js/2.9958e4f0.chunk.js",
-    "static/css/main.d621e4fa.chunk.css",
-    "static/js/main.72af056a.chunk.js"
+    "static/js/runtime-main.efb9ee4e.js",
+    "static/css/2.e15b677c.chunk.css",
+    "static/js/2.97984cdb.chunk.js",
+    "static/css/main.54b55e28.chunk.css",
+    "static/js/main.fdac45e3.chunk.js"
   ]
 }
