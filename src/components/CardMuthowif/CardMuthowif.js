@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import {
     Button,
@@ -8,7 +8,8 @@ import {
 } from "react-bootstrap";
 
 const CardMuthowif = props => {
-    const { data, name, onClickDetail, onClickBook } = props;
+    const { data, name, price, onClickDetail, onClickBook } = props;
+
     return (
         <Card>
             <Card.Header>
@@ -44,7 +45,7 @@ const CardMuthowif = props => {
                         </div>
                         <div className="typography-line" style={{ marginBottom: 0 }}>
                             <span>Price</span>
-                            <p className="text-muted">Rp 500.000/day</p>
+                            <p className="text-muted">SAR {price}/day</p>
                         </div>
                         <div className="text-right">
                             <Button
@@ -74,6 +75,7 @@ const CardMuthowif = props => {
 CardMuthowif.propTypes = {
     data: PropTypes.object.isRequired,
     name: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
     onClickDetail: PropTypes.func.isRequired,
     onClickBook: PropTypes.func.isRequired
 };

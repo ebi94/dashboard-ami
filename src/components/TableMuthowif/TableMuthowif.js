@@ -19,7 +19,7 @@ import {
 import { getListMuthowif, editMuthowif, deleteMuthowif } from "../../services/muthowif";
 
 const TableMuthowif = () => {
-	const notificationAlertRef = useRef(null)
+	const notificationAlertRef = useRef(null);
 	const [dataMuthowif, setDataMuthowif] = useState([]);
 	const [dataDetail, setDataDetail] = useState({});
 	const [loading, setLoading] = useState(false);

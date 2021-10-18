@@ -19,6 +19,7 @@ import FlatPickr from "react-flatpickr";
 import CardMuthowif from "components/CardMuthowif/CardMuthowif";
 import { createReservation, getLastReservation } from "services/reservation";
 import { getListMuthowifAvailable } from "services/muthowif";
+import { getPrice } from "services/setting";
 
 const Reservasi = () => {
     const [listMuthowif, setListMuthowif] = useState([]);
@@ -50,6 +51,19 @@ const Reservasi = () => {
     const [lastId, setLastId] = useState();
 
     const [valueForm, setValueForm] = useState({});
+
+
+    const [price, setPrice] = useState(0);
+
+    const checkPrice = async () => {
+        const res = await getPrice();
+        const data = res[0];
+        const basePrice = data && data.basePrice;
+        const fee = data && data.fee;
+        const additionalCosts = data && data.additionalCosts;
+        const price = +basePrice + +fee + +additionalCosts;
+        setPrice(price);
+    };
 
     const getMuthowif = async () => {
         setLoading(true)
@@ -223,6 +237,10 @@ const Reservasi = () => {
         }
     }, [lastId])
 
+    useEffect(() => {
+        checkPrice();
+    }, []);
+
     return (
         <>
             <Container fluid>
@@ -296,6 +314,7 @@ const Reservasi = () => {
                                     <CardMuthowif
                                         name={data.firstName}
                                         data={data}
+                                        price={price}
                                         onClickDetail={(data) => onClickDetail(data)}
                                         onClickBook={(data) => onClickBook(data)}
                                     />
