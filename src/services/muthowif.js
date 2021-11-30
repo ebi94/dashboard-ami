@@ -13,10 +13,11 @@ const getListMuthowif = () => {
         });
 };
 
-const getListMuthowifAvailable = (startDate, endDate) => {
+const getListMuthowifAvailable = (startDate, endDate, firstNameOrder) => {
     const bodyReq = {
         startDate,
-        endDate
+        endDate,
+        firstNameOrder: firstNameOrder ? firstNameOrder : 'ASC'
     };
 
     return axios.post(baseUrl + '/muthowif/available', bodyReq)

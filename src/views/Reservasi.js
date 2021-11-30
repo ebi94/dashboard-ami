@@ -45,6 +45,7 @@ const Reservasi = () => {
     const [travelName, setTravelName] = useState();
     const [startDate, setStartDate] = useState();
     const [endDate, setEndDate] = useState();
+    const [firstNameOrder, setFirstNameOrder] = useState('');
     const [totalDay, setTotalDay] = useState();
     const [totalPayment, setTotalPayment] = useState();
     const [image, setImage] = useState(null);
@@ -67,7 +68,7 @@ const Reservasi = () => {
 
     const getMuthowif = async () => {
         setLoading(true)
-        const res = await getListMuthowifAvailable(startDate, endDate);
+        const res = await getListMuthowifAvailable(startDate, endDate, firstNameOrder);
         if (res) {
             setListMuthowif(res);
             setLoading(false);
@@ -148,6 +149,10 @@ const Reservasi = () => {
 
     const handleChangePdf = (e) => {
         setImage(e.target.files[0]);
+    };
+
+    const handleSort = (e) => {
+        setFirstNameOrder(e.target.value);
     };
 
     const optionsFlatpickr = {
@@ -241,6 +246,12 @@ const Reservasi = () => {
         checkPrice();
     }, []);
 
+    useEffect(() => {
+        if (firstNameOrder !== '') {
+            getMuthowif()
+        };
+    }, [firstNameOrder])
+
     return (
         <>
             <Container fluid>
@@ -300,6 +311,24 @@ const Reservasi = () => {
                                 </Form>
                             </Card.Body>
                         </Card>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col className="pt-1 pb-1" md="3">
+                        <Form.Group>
+                            <label htmlFor="exampleInputEmail1">
+                                Sort by :
+                            </label>
+                            <Form.Control
+                                as="select"
+                                name="sortSelect"
+                                id="sortSelect"
+                                onChange={(e) => handleSort(e)}
+                            >
+                                <option value="ASC">Name A - Z</option>
+                                <option value="DESC">Name Z - A</option>
+                            </Form.Control>
+                        </Form.Group>
                     </Col>
                 </Row>
                 <Row>
