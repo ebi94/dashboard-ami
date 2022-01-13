@@ -52,8 +52,7 @@ const Reservasi = () => {
     const [lastId, setLastId] = useState();
 
     const [valueForm, setValueForm] = useState({});
-
-
+    const [reqPdf, setReqPdf] = useState(true);
     const [price, setPrice] = useState(0);
 
     const checkPrice = async () => {
@@ -100,11 +99,8 @@ const Reservasi = () => {
 
     const getLastId = async () => {
         const res = await getLastReservation();
-        console.log('res', res)
         const data = res && res.data && res.data.data && res.data.data[0] && res.data.data[0].id
-        console.log('last id data', data)
         const id = +data + 1;
-        console.log('last id', id)
         setLastId(id);
     };
 
@@ -137,6 +133,7 @@ const Reservasi = () => {
         paymentMethod: Yup.string()
             .required('Harap di isi !'),
         jmlJamaah: Yup.number()
+            .min(1, "Min 1 jamaah untuk 1 Reservasi")
             .max(35, "Maks 35 jamaah untuk 1 Reservasi")
             .required('Harap di isi !'),
     });
@@ -225,7 +222,6 @@ const Reservasi = () => {
         } else {
             setSearchRequired(false)
         }
-        console.log('route', route)
     }, [route]);
 
     useEffect(() => {
@@ -251,6 +247,14 @@ const Reservasi = () => {
             getMuthowif()
         };
     }, [firstNameOrder])
+
+    useEffect(() => {
+        if (image && image.name !== null || image && image.name !== undefined) {
+            setReqPdf(false);
+        } else {
+            setReqPdf(true);
+        }
+    }, [image])
 
     return (
         <>
@@ -524,7 +528,7 @@ const Reservasi = () => {
                                             isInvalid={formik.touched.departured && formik.errors.departured}
                                         />
                                         {formik.touched.departured && formik.errors.departured ? (
-                                            <Form.Text className="text-danger">{formik.errors.flightCode}</Form.Text>)
+                                            <Form.Text className="text-danger">{formik.errors.departured}</Form.Text>)
                                             : null
                                         }
                                     </Form.Group>
@@ -542,7 +546,7 @@ const Reservasi = () => {
                                             isInvalid={formik.touched.arrived && formik.errors.arrived}
                                         />
                                         {formik.touched.arrived && formik.errors.arrived ? (
-                                            <Form.Text className="text-danger">{formik.errors.flightCode}</Form.Text>)
+                                            <Form.Text className="text-danger">{formik.errors.arrived}</Form.Text>)
                                             : null
                                         }
                                     </Form.Group>
@@ -562,7 +566,7 @@ const Reservasi = () => {
                                             isInvalid={formik.touched.picName && formik.errors.picName}
                                         />
                                         {formik.touched.picName && formik.errors.picName ? (
-                                            <Form.Text className="text-danger">{formik.errors.flightCode}</Form.Text>)
+                                            <Form.Text className="text-danger">{formik.errors.picName}</Form.Text>)
                                             : null
                                         }
                                     </Form.Group>
@@ -579,8 +583,8 @@ const Reservasi = () => {
                                             disabled={loadingReservartion}
                                             isInvalid={formik.touched.picContact && formik.errors.picContact}
                                         />
-                                        {formik.touched.picContact && formik.errors.flightCode ? (
-                                            <Form.Text className="text-danger">{formik.errors.flightCode}</Form.Text>)
+                                        {formik.touched.picContact && formik.errors.picContact ? (
+                                            <Form.Text className="text-danger">{formik.errors.picContact}</Form.Text>)
                                             : null
                                         }
                                     </Form.Group>
@@ -600,7 +604,7 @@ const Reservasi = () => {
                                             isInvalid={formik.touched.paymentMethod && formik.errors.paymentMethod}
                                         />
                                         {formik.touched.paymentMethod && formik.errors.paymentMethod ? (
-                                            <Form.Text className="text-danger">{formik.errors.flightCode}</Form.Text>)
+                                            <Form.Text className="text-danger">{formik.errors.paymentMethod}</Form.Text>)
                                             : null
                                         }
                                     </Form.Group>
@@ -618,10 +622,10 @@ const Reservasi = () => {
                                             id="pdfitenary"
                                             type="file"
                                             disabled={loadingReservartion}
-                                            isInvalid={formik.touched.paymentMethod && formik.errors.paymentMethod}
+                                            isInvalid={reqPdf}
                                         />
-                                        {formik.touched.paymentMethod && formik.errors.paymentMethod ? (
-                                            <Form.Text className="text-danger">{formik.errors.flightCode}</Form.Text>)
+                                        {reqPdf ? (
+                                            <Form.Text className="text-danger">Mohon upload jadwal perjalanan !</Form.Text>)
                                             : null
                                         }
                                     </Form.Group>
@@ -655,6 +659,7 @@ const Reservasi = () => {
                                     type="submit"
                                     variant="info"
                                     style={{ minWidth: 150 }}
+                                    disabled={reqPdf}
                                 >
                                     {loadingReservartion ? <Spinner animation="border" variant="secondary" style={{ fonstSize: 10, height: 20, width: 20 }} size="sm" /> : 'Pesan Sekarang'}
                                 </Button>

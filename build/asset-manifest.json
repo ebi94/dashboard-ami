@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/static/css/main.54b55e28.chunk.css",
-    "main.js": "/static/js/main.023b3bb9.chunk.js",
-    "main.js.map": "/static/js/main.023b3bb9.chunk.js.map",
+    "main.css": "/static/css/main.d78d9318.chunk.css",
+    "main.js": "/static/js/main.f265069a.chunk.js",
+    "main.js.map": "/static/js/main.f265069a.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.efb9ee4e.js",
     "runtime-main.js.map": "/static/js/runtime-main.efb9ee4e.js.map",
-    "static/css/2.e15b677c.chunk.css": "/static/css/2.e15b677c.chunk.css",
-    "static/js/2.c861362b.chunk.js": "/static/js/2.c861362b.chunk.js",
-    "static/js/2.c861362b.chunk.js.map": "/static/js/2.c861362b.chunk.js.map",
+    "static/css/2.050b4e70.chunk.css": "/static/css/2.050b4e70.chunk.css",
+    "static/js/2.b48d6814.chunk.js": "/static/js/2.b48d6814.chunk.js",
+    "static/js/2.b48d6814.chunk.js.map": "/static/js/2.b48d6814.chunk.js.map",
     "index.html": "/index.html",
-    "static/css/2.e15b677c.chunk.css.map": "/static/css/2.e15b677c.chunk.css.map",
-    "static/css/main.54b55e28.chunk.css.map": "/static/css/main.54b55e28.chunk.css.map",
-    "static/js/2.c861362b.chunk.js.LICENSE.txt": "/static/js/2.c861362b.chunk.js.LICENSE.txt",
-    "static/js/main.023b3bb9.chunk.js.LICENSE.txt": "/static/js/main.023b3bb9.chunk.js.LICENSE.txt",
+    "static/css/2.050b4e70.chunk.css.map": "/static/css/2.050b4e70.chunk.css.map",
+    "static/css/main.d78d9318.chunk.css.map": "/static/css/main.d78d9318.chunk.css.map",
+    "static/js/2.b48d6814.chunk.js.LICENSE.txt": "/static/js/2.b48d6814.chunk.js.LICENSE.txt",
+    "static/js/main.f265069a.chunk.js.LICENSE.txt": "/static/js/main.f265069a.chunk.js.LICENSE.txt",
     "static/media/WhatsApp.3c500401.svg": "/static/media/WhatsApp.3c500401.svg",
     "static/media/all.min.css": "/static/media/fa-solid-900.f4f93856.woff",
     "static/media/face-3.jpg": "/static/media/face-3.62232de2.jpg",
@@ -26,9 +26,9 @@
   },
   "entrypoints": [
     "static/js/runtime-main.efb9ee4e.js",
-    "static/css/2.e15b677c.chunk.css",
-    "static/js/2.c861362b.chunk.js",
-    "static/css/main.54b55e28.chunk.css",
-    "static/js/main.023b3bb9.chunk.js"
+    "static/css/2.050b4e70.chunk.css",
+    "static/js/2.b48d6814.chunk.js",
+    "static/css/main.d78d9318.chunk.css",
+    "static/js/main.f265069a.chunk.js"
   ]
 }
